@@ -7,7 +7,7 @@
     {% for task in tasks if task %}
         <div class="alert alert-success text-justify">  {{ task.content }} <br><br>{{ task.date }} <a class="pull-right" href="{{ path('delete', { 'id' : task.id}) }}"><button class="btn btn-danger">Delete</button> </a>  </div>
     {% else %}
-        There is no task yet
+        There is no task
     {% endfor %}
     <br>
     <div>
