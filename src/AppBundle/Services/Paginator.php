@@ -2,8 +2,8 @@
 
 namespace AppBundle\Services;
 
+use AppBundle\Contracts\IPaginator;
 use Doctrine\Common\Proxy\Exception\UnexpectedValueException;
-use IPaginator;
 
 class Paginator implements IPaginator
 {

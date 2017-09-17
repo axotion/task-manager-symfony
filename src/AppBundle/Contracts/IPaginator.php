@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: axotion
- * Date: 17.09.2017
- * Time: 23:45
- */
+
+namespace AppBundle\Contracts;
 
 interface IPaginator
 {
