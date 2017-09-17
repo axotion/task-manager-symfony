@@ -3,8 +3,9 @@
 namespace AppBundle\Services;
 
 use Doctrine\Common\Proxy\Exception\UnexpectedValueException;
+use IPaginator;
 
-class Paginator
+class Paginator implements IPaginator
 {
 
     private $page;
