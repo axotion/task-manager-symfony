@@ -1,0 +1,20 @@
+
+index:
+    path:     /
+    methods: [GET]
+    defaults: { _controller: AppBundle:Task:index }
+
+create:
+    path:     /task/
+    methods: [GET]
+    defaults: { _controller: AppBundle:Task:create }
+
+store:
+    path:     /task/
+    methods:  [POST]
+    defaults: { _controller: AppBundle:Task:store }
+
+delete:
+    path: /task/{id}/delete
+    methods: [GET]
+    defaults: { _controller: AppBundle:Task:delete }

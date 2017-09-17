@@ -1,0 +1,25 @@
+{% extends "@App/master/base.html.twig" %}
+
+{% block title %}Tasks{% endblock %}
+
+{% block body %}
+
+    {% for task in tasks if task %}
+        <div class="alert alert-success text-justify">  {{ task.content }} <br><br>{{ task.date }} <a class="pull-right" href="{{ path('delete', { 'id' : task.id}) }}"><button class="btn btn-danger">Delete</button> </a>  </div>
+    {% else %}
+        There is no task yet
+    {% endfor %}
+    <br>
+    <div>
+        <div class="pull-left">
+        {% if previous_tasks %}
+        <a href="{{ path('index', { 'page' : page-1}) }}"> <button class="btn btn-info">Previous</button></a>
+        {% endif %}
+        </div>
+        <div class="pull-right">
+            {% if next_tasks %}
+        <a href="{{ path('index', { 'page' : page+1}) }}"> <button class="btn btn-info">Next</button></a>
+        {% endif %}
+        </div>
+    </div>
+{% endblock %}
