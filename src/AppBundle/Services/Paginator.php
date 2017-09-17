@@ -29,18 +29,18 @@ class Paginator
         }
         throw new UnexpectedValueException('Page number cannot be below 0');
     }
-    
+
     public function getNextPage()
     {
-        if(!empty($this->results) and count($this->results) == $this->limit) {
+        if(!empty($this->results) and count($this->repository->findBy([], [], $this->limit, $this->offset+5)) == $this->limit) {
             return true;
         }
         return false;
     }
-    
+
     public function getPreviousPage()
     {
-        if($this->offset == 0)
+        if($this->offset == 0 or count($this->repository->findBy([], [], $this->limit, $this->offset)) <= 0 )
         {
             return false;
         }
