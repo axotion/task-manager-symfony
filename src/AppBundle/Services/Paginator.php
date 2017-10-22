@@ -13,14 +13,17 @@ class Paginator implements IPaginator
     private $offset;
     private $results;
     private $repository;
+    private $user;
 
-    public function init($page, $limit, $repository, $order = "desc", $orderBy = 'id')
+    public function init($page, $limit, $repository, $user, $order = "desc", $orderBy = 'id')
     {
         $this->page = $page;
         $this->limit = $limit;
         $this->offset = ((int)$this->page - 1) * $this->limit;
         $this->repository = $repository;
-        $this->results = $this->repository->findBy([], [$orderBy => $order], $this->limit, $this->offset);
+        $this->user = $user;
+        $this->results = $this->repository->findBy(['user' => $this->user], [$orderBy => $order], $this->limit, $this->offset);
+
     }
 
     public function paginate()
@@ -33,7 +36,7 @@ class Paginator implements IPaginator
     
     public function getNextPage()
     {
-        if(!empty($this->results) and count($this->repository->findBy([], [], $this->limit, $this->offset+5)) == $this->limit) {
+        if(!empty($this->results) and count($this->repository->findBy(['user' => $this->user], [], $this->limit, $this->offset+5)) == $this->limit) {
             return true;
         }
         return false;
@@ -41,7 +44,7 @@ class Paginator implements IPaginator
     
     public function getPreviousPage()
     {
-        if($this->offset == 0 or count($this->repository->findBy([], [], $this->limit, $this->offset)) <= 0 )
+        if($this->offset == 0 or count($this->repository->findBy(['user' => $this->user], [], $this->limit, $this->offset)) <= 0 )
         {
             return false;
         }

@@ -21,7 +21,7 @@ class TaskController extends Controller
     {
         $page = $request->query->get('page') ? (int)$request->query->get('page') : 1;
         if((int)$page > 0) {
-            $this->paginator->init($page, 5, $this->getDoctrine()->getRepository('AppBundle:Task'));
+            $this->paginator->init($page, 5, $this->getDoctrine()->getRepository('AppBundle:Task'),$this->getUser());
             $tasks = $this->paginator->paginate();
             $next_tasks = $this->paginator->getNextPage();
             $previous_tasks = $this->paginator->getPreviousPage();
@@ -32,9 +32,7 @@ class TaskController extends Controller
 
     public function createAction()
     {
-
         $form = $this->createForm(TaskForm::class);
-
         return $this->render('AppBundle:Task:create.html.twig', ['form' => $form->createView()]);
     }
 
@@ -43,6 +41,7 @@ class TaskController extends Controller
             $task = new Task();
             $em = $this->getDoctrine()->getManager();
             $task->setContent($request->request->get('app_bundle_task_form')['content'])->setActive(true)->setDate(new \DateTime('now'));
+            $task->setUser($this->getUser());
             $em->persist($task);
             $em->flush();
             $this->addFlash(
@@ -54,13 +53,15 @@ class TaskController extends Controller
 
     public function deleteAction(Task $id)
     {
-       $em = $this->getDoctrine()->getManager();
-       $em->remove($id);
-       $em->flush();
-        $this->addFlash(
-            'notice',
-            'Your task was deleted successfully!'
-        );
-        return $this->redirectToRoute('index');
+        if ($this->isGranted('delete', $id)) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($id);
+            $em->flush();
+            $this->addFlash(
+                'notice',
+                'Your task was deleted successfully!'
+            );
+
+        }    return $this->redirectToRoute('index');
     }
 }
